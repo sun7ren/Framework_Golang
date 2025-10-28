@@ -14,6 +14,7 @@ func main() {
 	var firstName string
 	var email string
 	var amountOfTickets int
+	var bookings [50]string
 
 	fmt.Println("Enter your first name: ")
 	fmt.Scan(&firstName)
@@ -23,6 +24,13 @@ func main() {
 
 	fmt.Println("Enter the amount of Tickets: ")
 	fmt.Scan(&amountOfTickets)
+
+	bookings[0] = firstName + " " + email
+
+	fmt.Printf("The whole array: %v\n", bookings)
+	fmt.Printf("The first value: %v\n", bookings[0])
+	fmt.Printf("Array type: %T\n", bookings)
+	fmt.Printf("Array length: %v\n", len(bookings))
 
 	fmt.Printf("User %v booked %v queue tickets.\n", firstName, amountOfTickets)
 
