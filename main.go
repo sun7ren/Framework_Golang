@@ -1,43 +1,59 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	boothName := "Thematics Booth"
 	const maxQueue = 50
 	var remainingQueue = 50
 
-	fmt.Printf("Welcome to %v photobooth", boothName)
-	fmt.Printf("We have a total of %v tickets, and a remaining of %v tickets", maxQueue, remainingQueue)
+	var bookings = []string{}
+	var firstNames = []string{}
+
+	fmt.Printf("Welcome to %v photobooth\n", boothName)
+	fmt.Printf("We have a total of %v tickets, and a remaining of %v tickets\n", maxQueue, remainingQueue)
 	fmt.Println("Get your ticket queue here to start")
 
-	var firstName string
-	var email string
-	var amountOfTickets int
-	var bookings [50]string
+	for {
+		var firstName string
+		var email string
+		var amountOfTickets int
 
-	fmt.Println("Enter your first name: ")
-	fmt.Scan(&firstName)
+		fmt.Println("Enter your first name: ")
+		fmt.Scan(&firstName)
 
-	fmt.Println("Enter your email: ")
-	fmt.Scan(&email)
+		fmt.Println("Enter your email: ")
+		fmt.Scan(&email)
 
-	fmt.Println("Enter the amount of Tickets: ")
-	fmt.Scan(&amountOfTickets)
+		fmt.Println("Enter the amount of Tickets: ")
+		fmt.Scan(&amountOfTickets)
 
-	bookings[0] = firstName + " " + email
+		fmt.Printf("User %v booked %v queue tickets.\n", firstName, amountOfTickets)
 
-	fmt.Printf("The whole array: %v\n", bookings)
-	fmt.Printf("The first value: %v\n", bookings[0])
-	fmt.Printf("Array type: %T\n", bookings)
-	fmt.Printf("Array length: %v\n", len(bookings))
+		if remainingQueue >= amountOfTickets && amountOfTickets > 0 {
+			remainingQueue = remainingQueue - amountOfTickets
+			fmt.Printf("SUCCESS! There are %v remaining queue tickets.\n", remainingQueue)
 
-	fmt.Printf("User %v booked %v queue tickets.\n", firstName, amountOfTickets)
+			bookings = append(bookings, firstName+" "+email)
+			firstNames = append(firstNames, firstName)
 
-	if remainingQueue >= amountOfTickets {
-		remainingQueue = remainingQueue - amountOfTickets
-		fmt.Printf("There are %v remaining queue tickets", remainingQueue)
-	} else {
-		fmt.Printf("Failed transaction.")
+		} else {
+			if amountOfTickets <= 0 {
+				fmt.Println("Failed transaction. Please enter a valid ticket amount.")
+			} else {
+				fmt.Printf("Failed transaction. We only have %v tickets remaining.\n", remainingQueue)
+			}
+		}
+
+		fmt.Printf("The first names of current bookings are: %v\n", strings.Join(firstNames, ", "))
+		fmt.Printf("The current bookings are: %v\n", bookings)
+
+		if remainingQueue == 0 {
+			fmt.Println("All tickets are sold out! Closing the booth.")
+			break
+		}
 	}
 }
